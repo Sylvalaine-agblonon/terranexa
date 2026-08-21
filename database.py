@@ -87,14 +87,14 @@ def init_db():
 
 # --- FONCTIONS CRUD & AUTHENTIFICATION ---
 
-def inscrire_utilisateur(nom, prenom, email, telephone, mot_de_passe, est_porteur=True):
+def inscrire_utilisateur(nom, prenom, email, telephone, mot_de_passe):
     conn = get_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO UTILISATEUR (nom, prenom, email, telephone, mot_de_passe_hash, est_porteur)
+            INSERT INTO UTILISATEUR (nom, prenom, email, telephone, mot_de_passe_hash)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (nom, prenom, email, telephone, hash_password(mot_de_passe), est_porteur))
+        """, (nom, prenom, email, telephone, hash_password(mot_de_passe)))
         conn.commit()
         user_id = cursor.lastrowid
         conn.close()
