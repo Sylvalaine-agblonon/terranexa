@@ -17,7 +17,7 @@ def init_db():
 
     cursor.execute("PRAGMA foreign_keys = ON;")
 
-    # Table UTILISATEUR (avec est_porteur synchronisé)
+    # 1. Table UTILISATEUR
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS UTILISATEUR (
             id_utilisateur INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +31,13 @@ def init_db():
         )
     """)
 
-    # Table PORTEUR_DE_PROJET (KYS)
+    # Migration à chaud : Ajoute la colonne est_porteur si elle n'existe pas encore
+    cursor.execute("PRAGMA table_info(UTILISATEUR)")
+    columns = [column[1] for column in cursor.fetchall()]
+    if "est_porteur" not in columns:
+        cursor.execute("ALTER TABLE UTILISATEUR ADD COLUMN est_porteur BOOLEAN NOT NULL DEFAULT 1;")
+
+    # 2. Table PORTEUR_DE_PROJET (KYS)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS PORTEUR_DE_PROJET (
             id_porteur INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,7 +52,7 @@ def init_db():
         )
     """)
 
-    # Table PROJET
+    # 3. Table PROJET
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS PROJET (
             id_projet INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,7 +73,7 @@ def init_db():
         )
     """)
 
-    # Table PAIEMENT_FRAIS
+    # 4. Table PAIEMENT_FRAIS
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS PAIEMENT_FRAIS (
             id_paiement INTEGER PRIMARY KEY AUTOINCREMENT,
