@@ -18,6 +18,7 @@ st.set_page_config(
     page_icon="🌱",
     layout="wide"
 )
+
 import streamlit as st
 
 # Configuration de la page
@@ -27,18 +28,17 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS Personnalisé : Fond Bleu Ciel & Logo Animé en Arrière-Plan ---
-# Remplacez l'URL ci-dessous par le lien exact vers votre image de logo (PNG de préférence avec fond transparent)
+# --- CSS Personnalisé : Fond Bleu Ciel & Logo Animé Grand Format ---
 LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
 
 custom_css = f"""
 <style>
-/* 1. Appliquer le fond bleu ciel sur toute l'application */
+/* 1. Fond bleu ciel sur toute l'application */
 .stApp {{
-    background-color: #E0F2FE; /* Bleu ciel doux */
+    background-color: #E0F2FE;
 }}
 
-/* 2. Arrière-plan animé avec le logo */
+/* 2. Logo agrandi en arrière-plan */
 .stApp::before {{
     content: "";
     position: fixed;
@@ -49,27 +49,27 @@ custom_css = f"""
     background-image: url('{LOGO_URL}');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 250px; /* Taille du logo en arrière-plan */
-    opacity: 0.12; /* Opacité légère pour ne pas gêner la lecture du texte */
-    pointer-events: none; /* Permet de cliquer sur les éléments au-dessus */
+    background-size: 500px; /* <--- Taille augmentée ici (mettez 600px ou 700px si vous le voulez encore plus grand) */
+    opacity: 0.10; /* Légèrement réduit pour conserver une excellente lisibilité du texte */
+    pointer-events: none;
     z-index: 0;
     animation: floatLogo 8s ease-in-out infinite;
 }}
 
-/* 3. Définition de l'animation de flottaison / pulsation */
+/* 3. Animation de flottaison / pulsation */
 @keyframes floatLogo {{
     0% {{
         transform: translateY(0px) scale(1) rotate(0deg);
     }}
     50% {{
-        transform: translateY(-20px) scale(1.08) rotate(3deg);
+        transform: translateY(-20px) scale(1.05) rotate(2deg);
     }}
     100% {{
         transform: translateY(0px) scale(1) rotate(0deg);
     }}
 }}
 
-/* 4. Amélioration de la lisibilité des conteneurs de texte */
+/* 4. Maintien des éléments au premier plan */
 .stMarkdown, .stButton, div[data-testid="stVerticalBlock"] {{
     position: relative;
     z-index: 1;
@@ -79,9 +79,6 @@ custom_css = f"""
 
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# --- Suite de votre code Streamlit ---
-st.title("🌱 Bienvenue sur Terranexa")
-st.write("Votre plateforme interactive.")
 # Initialisation des variables de Session State
 if 'page' not in st.session_state:
     st.session_state['page'] = 'home'
