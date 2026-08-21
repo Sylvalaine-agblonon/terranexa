@@ -51,7 +51,7 @@ TRANSLATIONS = {
         'btn_login': "🔑 Se connecter",
         'label_nom': "Nom *", 'label_prenom': "Prénom(s) *",
         'label_email': "Adresse E-mail *", 'label_phone': "Numéro WhatsApp (+229) *",
-        'label_pwd': "Mot de passe *", 'label_porteur_check': "Je suis un Porteur de Projet / Entrepreneur",
+        'label_pwd': "Mot de passe *", 'label_role_check': "Type de compte *",
         'label_cgu': "J'accepte les Conditions Générales d'Utilisation (CGU) *",
         'btn_back': "⬅️ Retour", 'btn_continue_reg': "S'inscrire et Continuer ➡️",
         'btn_continue_login': "Se connecter et Continuer ➡️",
@@ -88,7 +88,7 @@ TRANSLATIONS = {
         'btn_login': "🔑 Log In",
         'label_nom': "Last Name *", 'label_prenom': "First Name(s) *",
         'label_email': "Email Address *", 'label_phone': "WhatsApp Phone (+229) *",
-        'label_pwd': "Password *", 'label_porteur_check': "I am a Project Owner / Entrepreneur",
+        'label_pwd': "Password *", 'label_role_check': "Account Type *",
         'label_cgu': "I accept Terms and Conditions *",
         'btn_back': "⬅️ Back", 'btn_continue_reg': "Register and Continue ➡️",
         'btn_continue_login': "Log In and Continue ➡️",
@@ -125,7 +125,7 @@ TRANSLATIONS = {
         'btn_login': "🔑 Iniciar sesión",
         'label_nom': "Apellido *", 'label_prenom': "Nombre(s) *",
         'label_email': "Correo electrónico *", 'label_phone': "Teléfono WhatsApp (+229) *",
-        'label_pwd': "Contraseña *", 'label_porteur_check': "Soy un Promotor de Proyecto",
+        'label_pwd': "Contraseña *", 'label_role_check': "Tipo de cuenta *",
         'label_cgu': "Acepto los Términos y Condiciones *",
         'btn_back': "⬅️ Volver", 'btn_continue_reg': "Registrarse y Continuar ➡️",
         'btn_continue_login': "Iniciar sesión y Continuar ➡️",
@@ -354,7 +354,7 @@ elif st.session_state['page'] == 'dashboard':
         st.markdown("""
             <div class='light-content-card'>
                 <div class='section-tag'>GÉNÉRATEUR EXPRESS</div>
-                <h4>📄 Synthese Business Plan</h4>
+                <h4>📄 Synthèse Business Plan</h4>
                 <p style='color: #64748B; font-size: 0.9rem;'>Téléchargez le récapitulatif structuré de votre dossier pour votre banque ou partenaire.</p>
             </div>
         """, unsafe_allow_html=True)
@@ -422,7 +422,13 @@ elif st.session_state['page'] == 'parcours':
             with col2:
                 pwd = st.text_input(t['label_pwd'], type="password")
 
-            is_porteur = st.checkbox(t['label_porteur_check'], value=True)
+            role_selection = st.radio(
+                t['label_role_check'],
+                options=["Porteur de Projet / Entrepreneur", "Investisseur / Mentor"],
+                help="Sélectionnez votre profil principal."
+            )
+            est_porteur = (role_selection == "Porteur de Projet / Entrepreneur")
+
             cgu = st.checkbox(t['label_cgu'])
 
             col_btn1, col_btn2 = st.columns(2)
@@ -440,10 +446,19 @@ elif st.session_state['page'] == 'parcours':
                         st.error(t['err_phone'])
                     else:
                         phone_full = f"+229{phone_digits}"
-                        success, user_id, msg = inscrire_utilisateur(nom, prenom, email, phone_full, pwd, is_porteur)
+                        success, user_id, msg = inscrire_utilisateur(nom, prenom, email, phone_full, pwd, est_porteur)
                         if success:
-                            st.session_state['user'] = {'id_utilisateur': user_id, 'nom': nom, 'prenom': prenom, 'email': email}
-                            st.session_state['step'] = 'etape_kyc'
+                            st.session_state['user'] = {
+                                'id_utilisateur': user_id, 
+                                'nom': nom, 
+                                'prenom': prenom, 
+                                'email': email,
+                                'est_porteur': est_porteur
+                            }
+                            if est_porteur:
+                                st.session_state['step'] = 'etape_kyc'
+                            else:
+                                st.session_state['page'] = 'projets'
                             st.rerun()
                         else:
                             st.error(msg)
@@ -464,7 +479,10 @@ elif st.session_state['page'] == 'parcours':
                     success, user_data = authentifier_utilisateur(login_email, login_pwd)
                     if success:
                         st.session_state['user'] = user_data
-                        st.session_state['step'] = 'etape_kyc'
+                        if user_data.get('est_porteur', 1):
+                            st.session_state['step'] = 'etape_kyc'
+                        else:
+                            st.session_state['page'] = 'projets'
                         st.rerun()
                     else:
                         st.error(t['err_login'])

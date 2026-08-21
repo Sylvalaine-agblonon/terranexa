@@ -15,10 +15,9 @@ def init_db():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Activation des contraintes de clés étrangères
     cursor.execute("PRAGMA foreign_keys = ON;")
 
-    # 1. Table UTILISATEUR (Champs nom et prenom séparés)
+    # Table UTILISATEUR (avec est_porteur synchronisé)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS UTILISATEUR (
             id_utilisateur INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,12 +26,12 @@ def init_db():
             email TEXT UNIQUE NOT NULL,
             telephone TEXT NOT NULL,
             mot_de_passe_hash TEXT NOT NULL,
-            est_porteur BOOLEAN DEFAULT 1,
+            est_porteur BOOLEAN NOT NULL DEFAULT 1,
             date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
 
-    # 2. Table PORTEUR_DE_PROJET (KYS)
+    # Table PORTEUR_DE_PROJET (KYS)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS PORTEUR_DE_PROJET (
             id_porteur INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,7 +46,7 @@ def init_db():
         )
     """)
 
-    # 3. Table PROJET
+    # Table PROJET
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS PROJET (
             id_projet INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,7 +67,7 @@ def init_db():
         )
     """)
 
-    # 4. Table PAIEMENT_FRAIS
+    # Table PAIEMENT_FRAIS
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS PAIEMENT_FRAIS (
             id_paiement INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -87,14 +86,14 @@ def init_db():
 
 # --- FONCTIONS CRUD & AUTHENTIFICATION ---
 
-def inscrire_utilisateur(nom, prenom, email, telephone, mot_de_passe):
+def inscrire_utilisateur(nom, prenom, email, telephone, mot_de_passe, est_porteur=True):
     conn = get_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO UTILISATEUR (nom, prenom, email, telephone, mot_de_passe_hash)
+            INSERT INTO UTILISATEUR (nom, prenom, email, telephone, mot_de_passe_hash, est_porteur)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (nom, prenom, email, telephone, hash_password(mot_de_passe)))
+        """, (nom, prenom, email, telephone, hash_password(mot_de_passe), 1 if est_porteur else 0))
         conn.commit()
         user_id = cursor.lastrowid
         conn.close()
@@ -118,7 +117,6 @@ def enregistrer_porteur_kys(id_utilisateur, data):
     conn = get_connection()
     cursor = conn.cursor()
     
-    # Vérifier s'il existe déjà un profil porteur
     cursor.execute("SELECT id_porteur FROM PORTEUR_DE_PROJET WHERE id_utilisateur = ?", (id_utilisateur,))
     row = cursor.fetchone()
     
@@ -154,7 +152,6 @@ def enregistrer_projet_et_paiement(id_porteur, form_data, moyen_paiement):
     conn = get_connection()
     cursor = conn.cursor()
     
-    # Insertion dans PROJET
     cursor.execute("""
         INSERT INTO PROJET (
             id_porteur, titre_projet, niveau_maturite, secteur_activite,
@@ -178,7 +175,6 @@ def enregistrer_projet_et_paiement(id_porteur, form_data, moyen_paiement):
     ))
     id_projet = cursor.lastrowid
 
-    # Insertion dans PAIEMENT_FRAIS
     cursor.execute("""
         INSERT INTO PAIEMENT_FRAIS (
             id_projet, montant_frais, devise, moyen_paiement, statut_paiement
