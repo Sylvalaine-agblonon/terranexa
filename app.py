@@ -82,7 +82,7 @@ custom_css = f"""
 
 /* 5. Styles spécifiques à l'en-tête Bleu Nuit de la Page d'Accueil */
 .home-header-banner {{
-    background-color: #0C192C; /* Bleu nuit */
+    background-color: #0C191C; /* Bleu nuit */
     padding: 40px 20px;
     border-radius: 12px;
     text-align: center;
