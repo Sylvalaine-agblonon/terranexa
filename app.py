@@ -18,7 +18,70 @@ st.set_page_config(
     page_icon="🌱",
     layout="wide"
 )
+import streamlit as st
 
+# Configuration de la page
+st.set_page_config(
+    page_title="Terranexa",
+    page_icon="🌱",
+    layout="wide"
+)
+
+# --- CSS Personnalisé : Fond Bleu Ciel & Logo Animé en Arrière-Plan ---
+# Remplacez l'URL ci-dessous par le lien exact vers votre image de logo (PNG de préférence avec fond transparent)
+LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
+
+custom_css = f"""
+<style>
+/* 1. Appliquer le fond bleu ciel sur toute l'application */
+.stApp {{
+    background-color: #E0F2FE; /* Bleu ciel doux */
+}}
+
+/* 2. Arrière-plan animé avec le logo */
+.stApp::before {{
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('{LOGO_URL}');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 250px; /* Taille du logo en arrière-plan */
+    opacity: 0.12; /* Opacité légère pour ne pas gêner la lecture du texte */
+    pointer-events: none; /* Permet de cliquer sur les éléments au-dessus */
+    z-index: 0;
+    animation: floatLogo 8s ease-in-out infinite;
+}}
+
+/* 3. Définition de l'animation de flottaison / pulsation */
+@keyframes floatLogo {{
+    0% {{
+        transform: translateY(0px) scale(1) rotate(0deg);
+    }}
+    50% {{
+        transform: translateY(-20px) scale(1.08) rotate(3deg);
+    }}
+    100% {{
+        transform: translateY(0px) scale(1) rotate(0deg);
+    }}
+}}
+
+/* 4. Amélioration de la lisibilité des conteneurs de texte */
+.stMarkdown, .stButton, div[data-testid="stVerticalBlock"] {{
+    position: relative;
+    z-index: 1;
+}}
+</style>
+"""
+
+st.markdown(custom_css, unsafe_allow_html=True)
+
+# --- Suite de votre code Streamlit ---
+st.title("🌱 Bienvenue sur Terranexa")
+st.write("Votre plateforme interactive.")
 # Initialisation des variables de Session State
 if 'page' not in st.session_state:
     st.session_state['page'] = 'home'
