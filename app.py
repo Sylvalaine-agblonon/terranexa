@@ -49,7 +49,7 @@ custom_css = f"""
     background-image: url('{LOGO_URL}');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 500px; /* <--- Taille augmentée ici (mettez 600px ou 700px si vous le voulez encore plus grand) */
+    background-size: 1500px; /* <--- Taille augmentée ici (mettez 600px ou 700px si vous le voulez encore plus grand) */
     opacity: 0.10; /* Légèrement réduit pour conserver une excellente lisibilité du texte */
     pointer-events: none;
     z-index: 0;
