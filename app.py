@@ -19,17 +19,15 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS Personnalisé : Fond Bleu Ciel, Logo Arrière-plan Animé & Logo En-tête Tournant ---
+# --- CSS Personnalisé ---
 LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
 
 custom_css = f"""
 <style>
-/* 1. Fond bleu ciel sur toute l'application */
 .stApp {{
     background-color: #E0F2FE;
 }}
 
-/* 2. Logo agrandi en arrière-plan avec animation de flottaison */
 .stApp::before {{
     content: "";
     position: fixed;
@@ -47,27 +45,15 @@ custom_css = f"""
     animation: floatLogo 8s ease-in-out infinite;
 }}
 
-/* 3. Animation de flottaison / pulsation pour l'arrière-plan */
 @keyframes floatLogo {{
-    0% {{
-        transform: translateY(0px) scale(1) rotate(0deg);
-    }}
-    50% {{
-        transform: translateY(-20px) scale(1.05) rotate(2deg);
-    }}
-    100% {{
-        transform: translateY(0px) scale(1) rotate(0deg);
-    }}
+    0% {{ transform: translateY(0px) scale(1) rotate(0deg); }}
+    50% {{ transform: translateY(-20px) scale(1.05) rotate(2deg); }}
+    100% {{ transform: translateY(0px) scale(1) rotate(0deg); }}
 }}
 
-/* 4. Animation de rotation continue 360° en rond pour le logo de l'en-tête (pages secondaires) */
 @keyframes spinLogo {{
-    from {{
-        transform: rotate(0deg);
-    }}
-    to {{
-        transform: rotate(360deg);
-    }}
+    from {{ transform: rotate(0deg); }}
+    to {{ transform: rotate(360deg); }}
 }}
 
 .header-rotating-logo img {{
@@ -80,9 +66,8 @@ custom_css = f"""
     animation-play-state: paused;
 }}
 
-/* 5. Styles spécifiques à l'en-tête Bleu Nuit de la Page d'Accueil */
 .home-header-banner {{
-    background-color: #0C194C; /* Bleu nuit */
+    background-color: #0C192C;
     padding: 40px 20px;
     border-radius: 12px;
     text-align: center;
@@ -91,8 +76,8 @@ custom_css = f"""
 }}
 
 .home-header-title {{
-    color: #FFFFFF !important; /* Texte en Blanc */
-    font-size: 3rem !important; /* Très grands caractères */
+    color: #FFFFFF !important;
+    font-size: 3rem !important;
     font-weight: 900 !important;
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -100,7 +85,6 @@ custom_css = f"""
     line-height: 1.2;
 }}
 
-/* 6. Styles généraux & palette */
 :root {{
     --terranexa-navy: #142B52;
     --terranexa-green: #0A9E60;
@@ -142,7 +126,6 @@ custom_css = f"""
     font-size: 0.85rem;
 }}
 
-/* Maintien des éléments au premier plan */
 .stMarkdown, .stButton, div[data-testid="stVerticalBlock"] {{
     position: relative;
     z-index: 1;
@@ -164,10 +147,8 @@ if 'user' not in st.session_state:
 if 'id_porteur' not in st.session_state:
     st.session_state['id_porteur'] = None
 
-# Chemin vers le fichier du logo
 LOGO_PATH = "logo.jpg"
 
-# Validation format e-mail
 def check_email(email):
     regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(regex, email)
@@ -192,8 +173,6 @@ if st.session_state['page'] == 'parcours':
 # 1. PAGE D'ACCUEIL
 # ==========================================
 if st.session_state['page'] == 'home':
-    
-    # 📌 Section d'en-tête Bleu Nuit avec Texte Blanc en Grands Caractères (Sans Logo)
     st.markdown("""
         <div class='home-header-banner'>
             <h1 class='home-header-title'>Bienvenue sur la plateforme terranexa</h1>
@@ -229,7 +208,6 @@ if st.session_state['page'] == 'home':
 
     st.divider()
 
-    # Partenaires Financiers
     st.markdown("""
         <div class='partner-section'>
             <p style='color: #142B52; font-weight: 700; font-size: 1.05rem; margin-bottom: 15px;'>
@@ -264,31 +242,40 @@ elif st.session_state['page'] == 'parcours':
 
         with tab_register:
             with st.form("form_register"):
+                # Champs Nom et Prénom séparés sur deux colonnes
+                col_name1, col_name2 = st.columns(2)
+                with col_name1:
+                    nom = st.text_input("Nom *").strip()
+                with col_name2:
+                    prenom = st.text_input("Prénom(s) *").strip()
+
                 col1, col2 = st.columns(2)
                 with col1:
-                    nom_prenom = st.text_input("Nom & Prénom *")
                     email = st.text_input("Adresse E-mail *").strip().lower()
-                with col2:
                     phone_digits = st.text_input("Numéro de téléphone (+229) *", max_chars=10)
+                with col2:
                     pwd = st.text_input("Mot de passe *", type="password")
 
                 is_porteur = st.checkbox("Je suis un Porteur de Projet / Entrepreneur", value=True)
                 cgu = st.checkbox("J'accepte les Conditions Générales d'Utilisation (CGU) *")
 
                 if st.form_submit_button("S'inscrire et Continuer ➡️"):
-                    if not nom_prenom or not email or not phone_digits or not pwd or not cgu:
-                        st.error("Veuillez remplir tous les champs obligatoires et accepter les CGU.")
+                    if not nom or not prenom or not email or not phone_digits or not pwd or not cgu:
+                        st.error("Veuillez remplir tous les champs obligatoires (Nom, Prénom, E-mail, Téléphone, Mot de passe) et accepter les CGU.")
                     elif not check_email(email):
                         st.error("Format d'adresse e-mail invalide.")
                     elif not phone_digits.isdigit():
                         st.error("Le numéro de téléphone doit contenir uniquement des chiffres.")
                     else:
                         phone_full = f"+229{phone_digits}"
-                        success, user_id, msg = inscrire_utilisateur(nom_prenom, email, phone_full, pwd, is_porteur)
+                        # Transmission de nom et prenom séparés à la fonction d'inscription
+                        success, user_id, msg = inscrire_utilisateur(nom, prenom, email, phone_full, pwd, is_porteur)
                         if success:
                             st.session_state['user'] = {
                                 'id_utilisateur': user_id,
-                                'nom_prenom': nom_prenom,
+                                'nom': nom,
+                                'prenom': prenom,
+                                'nom_prenom': f"{nom} {prenom}",
                                 'email': email,
                                 'telephone': phone_full
                             }
@@ -306,7 +293,7 @@ elif st.session_state['page'] == 'parcours':
                     success, user_data = authentifier_utilisateur(login_email, login_pwd)
                     if success:
                         st.session_state['user'] = user_data
-                        st.success(f"Bienvenue, {user_data['nom_prenom']} !")
+                        st.success(f"Bienvenue, {user_data.get('nom_prenom', user_data.get('nom', ''))} !")
                         st.session_state['step'] = 'etape_2'
                         st.rerun()
                     else:

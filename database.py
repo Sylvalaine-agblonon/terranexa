@@ -15,14 +15,15 @@ def init_db():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Enable Foreign Keys
+    # Activation des contraintes de clés étrangères
     cursor.execute("PRAGMA foreign_keys = ON;")
 
-    # 1. Table UTILISATEUR
+    # 1. Table UTILISATEUR (Champs nom et prenom séparés)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS UTILISATEUR (
             id_utilisateur INTEGER PRIMARY KEY AUTOINCREMENT,
-            nom_prenom TEXT NOT NULL,
+            nom TEXT NOT NULL,
+            prenom TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             telephone TEXT NOT NULL,
             mot_de_passe_hash TEXT NOT NULL,
@@ -86,14 +87,14 @@ def init_db():
 
 # --- FONCTIONS CRUD & AUTHENTIFICATION ---
 
-def inscrire_utilisateur(nom_prenom, email, telephone, mot_de_passe, est_porteur=True):
+def inscrire_utilisateur(nom, prenom, email, telephone, mot_de_passe, est_porteur=True):
     conn = get_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO UTILISATEUR (nom_prenom, email, telephone, mot_de_passe_hash, est_porteur)
-            VALUES (?, ?, ?, ?, ?)
-        """, (nom_prenom, email, telephone, hash_password(mot_de_passe), est_porteur))
+            INSERT INTO UTILISATEUR (nom, prenom, email, telephone, mot_de_passe_hash, est_porteur)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (nom, prenom, email, telephone, hash_password(mot_de_passe), est_porteur))
         conn.commit()
         user_id = cursor.lastrowid
         conn.close()

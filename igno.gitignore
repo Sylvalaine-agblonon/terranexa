@@ -1,0 +1,15 @@
+# Environnement virtuel Python
+venv/
+.venv/
+env/
+
+# Fichiers de cache Python
+__pycache__/
+*.pyc
+
+# Base de données locale (SQLite)
+*.db
+*.sqlite3
+
+# Fichiers système
+.DS_Store
