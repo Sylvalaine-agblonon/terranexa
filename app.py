@@ -19,7 +19,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS Personnalisé : Fond Bleu Ciel, Logo Arrière-plan Animé & Logo En-tête Tournant ---
+# --- CSS Personnalisé : Fond Bleu Ciel, Logo Arrière-plan Animé & Styles En-tête ---
 LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
 
 custom_css = f"""
@@ -60,7 +60,7 @@ custom_css = f"""
     }}
 }}
 
-/* 4. Animation de rotation continue 360° en rond pour le logo de l'en-tête */
+/* 4. Animation de rotation continue 360° pour le logo de l'en-tête (pages secondaires) */
 @keyframes spinLogo {{
     from {{
         transform: rotate(0deg);
@@ -70,31 +70,40 @@ custom_css = f"""
     }}
 }}
 
-/* Applique la rotation circulaire au logo de l'en-tête (images dans la bannière header) */
-.logo-header-banner img, .header-rotating-logo img {{
-    border-radius: 50%; /* Conserve une forme arrondie pour une rotation fluide */
+.header-rotating-logo img {{
+    border-radius: 50%;
     animation: spinLogo 12s linear infinite;
     transition: transform 0.3s ease;
 }}
 
-.logo-header-banner img:hover, .header-rotating-logo img:hover {{
-    animation-play-state: paused; /* Pause la rotation au survol */
+.header-rotating-logo img:hover {{
+    animation-play-state: paused;
 }}
 
-/* 5. Styles généraux & palette */
+/* 5. Bannière d'en-tête Bleu Nuit pour la Page d'Accueil */
+.home-header-banner {{
+    background-color: #0C192C;
+    padding: 45px 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(12, 25, 44, 0.3);
+}}
+
+.home-header-title {{
+    color: #ffffff;
+    font-size: 3.2rem;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+}}
+
+/* 6. Styles généraux & palette */
 :root {{
     --terranexa-navy: #142B52;
     --terranexa-green: #0A9E60;
     --terranexa-gold: #D4A017;
-}}
-
-.logo-header-banner {{
-    background-color: #142B52;
-    padding: 25px 20px;
-    border-radius: 12px;
-    text-align: center;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 12px rgba(20, 43, 82, 0.15);
 }}
 
 .main-title {{ color: #142B52; font-size: 2.2rem; font-weight: 800; line-height: 1.3; }}
@@ -183,15 +192,12 @@ if st.session_state['page'] == 'parcours':
 # ==========================================
 if st.session_state['page'] == 'home':
     
-    # 📌 Section d'en-tête Bleu Nuit avec le Logo Centré & Animé en Rotation
-    st.markdown("<div class='logo-header-banner'>", unsafe_allow_html=True)
-    col_left, col_center, col_right = st.columns([1, 2, 1])
-    with col_center:
-        if os.path.exists(LOGO_PATH):
-            st.image(LOGO_PATH, width=220)
-        else:
-            st.markdown("<h1 style='text-align: center; color: #ffffff; margin:0;'><span style='color: #0A9E60;'>TERRANEXA</span></h1>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    # 📌 En-tête Bleu Nuit avec Grand Titre uniquement sur l'accueil (sans logo)
+    st.markdown("""
+        <div class='home-header-banner'>
+            <h1 class='home-header-title'>Bienvenue sur la plateforme terranexa</h1>
+        </div>
+    """, unsafe_allow_html=True)
 
     col_hero_left, col_hero_right = st.columns([3, 2], gap="large")
     
