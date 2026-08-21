@@ -12,23 +12,14 @@ from database import (
 # Initialisation des tables SQLite
 init_db()
 
-# Configuration globale de la page
+# Configuration globale unique de la page
 st.set_page_config(
     page_title="Terranexa - Financez l'économie réelle",
     page_icon="🌱",
     layout="wide"
 )
 
-import streamlit as st
-
-# Configuration de la page
-st.set_page_config(
-    page_title="Terranexa",
-    page_icon="🌱",
-    layout="wide"
-)
-
-# --- CSS Personnalisé : Fond Bleu Ciel & Logo Animé Grand Format ---
+# --- CSS Personnalisé : Fond Bleu Ciel, Logo Arrière-plan Animé & Logo En-tête Tournant ---
 LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
 
 custom_css = f"""
@@ -38,7 +29,7 @@ custom_css = f"""
     background-color: #E0F2FE;
 }}
 
-/* 2. Logo agrandi en arrière-plan */
+/* 2. Logo agrandi en arrière-plan avec animation de flottaison */
 .stApp::before {{
     content: "";
     position: fixed;
@@ -49,14 +40,14 @@ custom_css = f"""
     background-image: url('{LOGO_URL}');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 1500px; /* <--- Taille augmentée ici (mettez 600px ou 700px si vous le voulez encore plus grand) */
-    opacity: 0.10; /* Légèrement réduit pour conserver une excellente lisibilité du texte */
+    background-size: 1500px;
+    opacity: 0.10;
     pointer-events: none;
     z-index: 0;
     animation: floatLogo 8s ease-in-out infinite;
 }}
 
-/* 3. Animation de flottaison / pulsation */
+/* 3. Animation de flottaison / pulsation pour l'arrière-plan */
 @keyframes floatLogo {{
     0% {{
         transform: translateY(0px) scale(1) rotate(0deg);
@@ -69,7 +60,79 @@ custom_css = f"""
     }}
 }}
 
-/* 4. Maintien des éléments au premier plan */
+/* 4. Animation de rotation continue 360° en rond pour le logo de l'en-tête */
+@keyframes spinLogo {{
+    from {{
+        transform: rotate(0deg);
+    }}
+    to {{
+        transform: rotate(360deg);
+    }}
+}}
+
+/* Applique la rotation circulaire au logo de l'en-tête (images dans la bannière header) */
+.logo-header-banner img, .header-rotating-logo img {{
+    border-radius: 50%; /* Conserve une forme arrondie pour une rotation fluide */
+    animation: spinLogo 12s linear infinite;
+    transition: transform 0.3s ease;
+}}
+
+.logo-header-banner img:hover, .header-rotating-logo img:hover {{
+    animation-play-state: paused; /* Pause la rotation au survol */
+}}
+
+/* 5. Styles généraux & palette */
+:root {{
+    --terranexa-navy: #142B52;
+    --terranexa-green: #0A9E60;
+    --terranexa-gold: #D4A017;
+}}
+
+.logo-header-banner {{
+    background-color: #142B52;
+    padding: 25px 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(20, 43, 82, 0.15);
+}}
+
+.main-title {{ color: #142B52; font-size: 2.2rem; font-weight: 800; line-height: 1.3; }}
+.hero-card {{ background-color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #E2E8F0; }}
+.stButton>button {{ background-color: #142B52; color: white; border-radius: 8px; font-weight: 600; }}
+.stButton>button:hover {{ background-color: #0A9E60; color: white; }}
+
+.partner-section {{
+    background-color: #F8FAFC;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    text-align: center;
+    margin-top: 20px;
+}}
+
+.partner-logo-box {{
+    background-color: #ffffff;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    font-weight: 700;
+    color: #142B52;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}}
+
+.footer-container {{
+    background-color: #142B52;
+    color: #ffffff;
+    padding: 20px;
+    margin-top: 40px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+}}
+
+/* Maintien des éléments au premier plan */
 .stMarkdown, .stButton, div[data-testid="stVerticalBlock"] {{
     position: relative;
     z-index: 1;
@@ -94,60 +157,6 @@ if 'id_porteur' not in st.session_state:
 # Chemin vers le fichier du logo
 LOGO_PATH = "logo.jpg"
 
-# --- STYLES CSS ---
-st.markdown("""
-    <style>
-    :root {
-        --terranexa-navy: #142B52;
-        --terranexa-green: #0A9E60;
-        --terranexa-gold: #D4A017;
-    }
-
-    /* En-tête bleu nuit pour le logo */
-    .logo-header-banner {
-        background-color: #142B52;
-        padding: 25px 20px;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 12px rgba(20, 43, 82, 0.15);
-    }
-
-    .main-title { color: #142B52; font-size: 2.2rem; font-weight: 800; line-height: 1.3; }
-    .hero-card { background-color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #E2E8F0; }
-    .stButton>button { background-color: #142B52; color: white; border-radius: 8px; font-weight: 600; }
-    .stButton>button:hover { background-color: #0A9E60; color: white; }
-    
-    .partner-section {
-        background-color: #F8FAFC;
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #E2E8F0;
-        text-align: center;
-        margin-top: 20px;
-    }
-    .partner-logo-box {
-        background-color: #ffffff;
-        border: 1px solid #CBD5E1;
-        border-radius: 8px;
-        padding: 12px;
-        text-align: center;
-        font-weight: 700;
-        color: #142B52;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .footer-container {
-        background-color: #142B52;
-        color: #ffffff;
-        padding: 20px;
-        margin-top: 40px;
-        border-radius: 8px;
-        text-align: center;
-        font-size: 0.85rem;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # Validation format e-mail
 def check_email(email):
     regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -158,7 +167,9 @@ if st.session_state['page'] == 'parcours':
     col_logo, col_nav = st.columns([3, 1])
     with col_logo:
         if os.path.exists(LOGO_PATH):
-            st.image(LOGO_PATH, width=180)
+            st.markdown("<div class='header-rotating-logo'>", unsafe_allow_html=True)
+            st.image(LOGO_PATH, width=120)
+            st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.markdown("<h2 style='color: #142B52; margin:0;'>TERRA<span style='color: #0A9E60;'>NEXA</span></h2>", unsafe_allow_html=True)
     with col_nav:
@@ -172,12 +183,12 @@ if st.session_state['page'] == 'parcours':
 # ==========================================
 if st.session_state['page'] == 'home':
     
-    # 📌 Section d'en-tête Bleu Nuit avec le Logo Centré
+    # 📌 Section d'en-tête Bleu Nuit avec le Logo Centré & Animé en Rotation
     st.markdown("<div class='logo-header-banner'>", unsafe_allow_html=True)
     col_left, col_center, col_right = st.columns([1, 2, 1])
     with col_center:
         if os.path.exists(LOGO_PATH):
-            st.image(LOGO_PATH, width=580)
+            st.image(LOGO_PATH, width=220)
         else:
             st.markdown("<h1 style='text-align: center; color: #ffffff; margin:0;'><span style='color: #0A9E60;'>TERRANEXA</span></h1>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
