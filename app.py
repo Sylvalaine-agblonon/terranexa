@@ -19,7 +19,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS Personnalisé : Fond Bleu Ciel, Logo Arrière-plan Animé & Styles En-tête ---
+# --- CSS Personnalisé : Fond Bleu Ciel, Logo Arrière-plan Animé & Logo En-tête Tournant ---
 LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
 
 custom_css = f"""
@@ -60,7 +60,7 @@ custom_css = f"""
     }}
 }}
 
-/* 4. Animation de rotation continue 360° pour le logo de l'en-tête (pages secondaires) */
+/* 4. Animation de rotation continue 360° en rond pour le logo de l'en-tête (pages secondaires) */
 @keyframes spinLogo {{
     from {{
         transform: rotate(0deg);
@@ -80,23 +80,24 @@ custom_css = f"""
     animation-play-state: paused;
 }}
 
-/* 5. Bannière d'en-tête Bleu Nuit pour la Page d'Accueil */
+/* 5. Styles spécifiques à l'en-tête Bleu Nuit de la Page d'Accueil */
 .home-header-banner {{
-    background-color: #0C192C;
-    padding: 45px 20px;
+    background-color: #0C192C; /* Bleu nuit */
+    padding: 40px 20px;
     border-radius: 12px;
     text-align: center;
     margin-bottom: 30px;
-    box-shadow: 0 4px 15px rgba(12, 25, 44, 0.3);
+    box-shadow: 0 4px 12px rgba(12, 25, 44, 0.3);
 }}
 
 .home-header-title {{
-    color: #ffffff;
-    font-size: 3.2rem;
-    font-weight: 900;
-    margin: 0;
+    color: #FFFFFF !important; /* Texte en Blanc */
+    font-size: 3rem !important; /* Très grands caractères */
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 !important;
     line-height: 1.2;
-    letter-spacing: 0.5px;
 }}
 
 /* 6. Styles généraux & palette */
@@ -192,7 +193,7 @@ if st.session_state['page'] == 'parcours':
 # ==========================================
 if st.session_state['page'] == 'home':
     
-    # 📌 En-tête Bleu Nuit avec Grand Titre uniquement sur l'accueil (sans logo)
+    # 📌 Section d'en-tête Bleu Nuit avec Texte Blanc en Grands Caractères (Sans Logo)
     st.markdown("""
         <div class='home-header-banner'>
             <h1 class='home-header-title'>Bienvenue sur la plateforme terranexa</h1>
