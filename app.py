@@ -12,30 +12,36 @@ from database import (
 # Initialisation de la base de données
 init_db()
 
-# Configuration globale de la page
+# Configuration globale
 st.set_page_config(
-    page_title="Terranexa",
+    page_title="Terranexa - Financez l'économie réelle",
     page_icon="🌱",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # ==========================================
-# DICTIONNAIRE DE TRADUCTION (DICTIONARY)
+# DICTIONNAIRE DE TRADUCTION
 # ==========================================
 TRANSLATIONS = {
     'fr': {
-        'page_title': "Terranexa - Financez l'économie réelle",
-        'welcome_title': "Bienvenue sur la plateforme terranexa",
         'hero_title': "Financez l'économie réelle, l'expérience et les projets d'avenir.",
-        'hero_desc': "Que vous soyez un jeune fondateur Tech, un entrepreneur chevronné, ou un futur retraité prêt à concrétiser la ferme ou le commerce de vos rêves: Terranexa valorise votre parcours et connecte votre projet au capital d'investisseurs engagés.",
-        'btn_deposit': "📌 Déposer un Projet",
-        'btn_discover': "🔍 Découvrir les Projets",
-        'profile_title': "Diversité des Porteurs de Projet",
-        'senior_desc': "👵👴 <b>Sénior / Retraité :</b> Valorisation du savoir-faire dans sa ferme ou sa boutique.",
-        'artisan_desc': "🛠️ <b>Artisan & Commerçant :</b> Consolidation et extension d'activités locales.",
-        'tech_desc': "💡 <b>Ingénieur / Young Tech :</b> Projets d'innovation et AgriTech.",
-        'partners_title': "En partenariat avec des institutions financières, banques et microfinances de confiance",
-        'nav_home': "🏠 Accueil",
+        'hero_desc': "Que vous soyez un jeune fondateur Tech, un entrepreneur chevronné, ou un futur retraité prêt à concrétiser la ferme ou le commerce de vos rêves : Terranexa valorise votre parcours et connecte votre projet au capital d'investisseurs engagés.",
+        'btn_deposit': "Déposer un Projet",
+        'btn_invest': "Investir dans l'Impact",
+        'secteurs_tag': "CE QUE NOUS FINANÇONS",
+        'secteurs_title': "De la ferme familiale à la startup, tous les secteurs de l'économie réelle.",
+        'secteurs_sub': "Chaque projet déposé sur Terranexa est classé par secteur pour orienter les investisseurs vers les impacts qui comptent pour eux.",
+        'stat_1_val': "+120",
+        'stat_1_lbl': "Projets accompagnés",
+        'stat_2_val': "€18M",
+        'stat_2_lbl': "Capital orienté vers les porteurs",
+        'stat_3_val': "1 sur 3",
+        'stat_3_lbl': "Porteurs séniors ou en reconversion",
+        'stat_4_val': "9 pays",
+        'stat_4_lbl': "Zones d'implantation couvertes",
+        'steps_tag': "COMMENT ÇA MARCHE",
+        'steps_title': "Un parcours simple en 4 étapes",
         'auth_title': "Espace Porteur de Projet",
         'auth_sub': "Pour déposer votre projet et suivre son avancement, veuillez vous identifier.",
         'btn_register': "📝 S'inscrire",
@@ -60,18 +66,23 @@ TRANSLATIONS = {
         'lang_selector': "🌐 Langue / Language / Idioma"
     },
     'en': {
-        'page_title': "Terranexa - Finance the real economy",
-        'welcome_title': "Welcome to the Terranexa platform",
         'hero_title': "Finance the real economy, expertise, and future projects.",
         'hero_desc': "Whether you are a young Tech founder, a seasoned entrepreneur, or a future retiree ready to start the farm or business of your dreams: Terranexa values your background and connects your project to committed investors.",
-        'btn_deposit': "📌 Submit a Project",
-        'btn_discover': "🔍 Discover Projects",
-        'profile_title': "Diversity of Project Owners",
-        'senior_desc': "👵👴 <b>Senior / Retiree:</b> Highlighting expertise in farming or local shops.",
-        'artisan_desc': "🛠️ <b>Artisan & Trader:</b> Consolidation and expansion of local activities.",
-        'tech_desc': "💡 <b>Engineer / Young Tech:</b> Innovation projects and AgriTech.",
-        'partners_title': "In partnership with trusted financial institutions, banks, and microfinance networks",
-        'nav_home': "🏠 Home",
+        'btn_deposit': "Submit a Project",
+        'btn_invest': "Invest in Impact",
+        'secteurs_tag': "WHAT WE FINANCE",
+        'secteurs_title': "From family farms to startups, all sectors of the real economy.",
+        'secteurs_sub': "Each project submitted on Terranexa is classified by sector to guide investors towards the impacts that matter to them.",
+        'stat_1_val': "+120",
+        'stat_1_lbl': "Supported projects",
+        'stat_2_val': "€18M",
+        'stat_2_lbl': "Capital raised for entrepreneurs",
+        'stat_3_val': "1 in 3",
+        'stat_3_lbl': "Senior or career change founders",
+        'stat_4_val': "9 countries",
+        'stat_4_lbl': "Covered regions",
+        'steps_tag': "HOW IT WORKS",
+        'steps_title': "A simple 4-step process",
         'auth_title': "Project Owner Space",
         'auth_sub': "To submit your project and track its progress, please log in or register.",
         'btn_register': "📝 Register",
@@ -94,42 +105,6 @@ TRANSLATIONS = {
         'err_phone': "Phone number must contain digits only.",
         'err_login': "Incorrect email or password.",
         'lang_selector': "🌐 Langue / Language / Idioma"
-    },
-    'es': {
-        'page_title': "Terranexa - Financiar la economía real",
-        'welcome_title': "Bienvenido a la plataforma Terranexa",
-        'hero_title': "Financie la economía real, la experiencia y los proyectos del futuro.",
-        'hero_desc': "Ya sea un joven fundador Tech, un empresario experimentado o un futuro jubilado listo para hacer realidad la granja o el negocio de sus sueños: Terranexa valora su trayectoria y conecta su proyecto con inversores comprometidos.",
-        'btn_deposit': "📌 Publicar un Proyecto",
-        'btn_discover': "🔍 Descubrir Proyectos",
-        'profile_title': "Diversidad de Promotores de Proyectos",
-        'senior_desc': "👵👴 <b>Sénior / Jubilado:</b> Valoración de la experiencia en su granja o tienda.",
-        'artisan_desc': "🛠️ <b>Artesano y Comerciante:</b> Consolidación y expansión de actividades locales.",
-        'tech_desc': "💡 <b>Ingeniero / Young Tech:</b> Proyectos de innovación y AgriTech.",
-        'partners_title': "En asociación con instituciones financieras, bancos y microfinanzas de confianza",
-        'nav_home': "🏠 Inicio",
-        'auth_title': "Espacio del Promotor",
-        'auth_sub': "Para enviar su proyecto y seguir su estado, inicie sesión o regístrese.",
-        'btn_register': "📝 Registrarse",
-        'has_account': "¿Ya tiene una cuenta?",
-        'btn_login': "🔑 Iniciar sesión",
-        'step1_reg_title': "Paso 1 de 7: Registro de cuenta",
-        'step1_login_title': "Paso 1 de 7: Inicio de sesión",
-        'label_nom': "Apellido *",
-        'label_prenom': "Nombre(s) *",
-        'label_email': "Correo electrónico *",
-        'label_phone': "Número de teléfono (+229) *",
-        'label_pwd': "Contraseña *",
-        'label_porteur_check': "Soy un Promotor de Proyecto / Emprendedor",
-        'label_cgu': "Acepto los Términos y Condiciones *",
-        'btn_back': "⬅️ Volver",
-        'btn_continue_reg': "Registrarse y Continuar ➡️",
-        'btn_continue_login': "Iniciar sesión y Continuar ➡️",
-        'err_missing_fields': "Por favor complete todos los campos obligatorios y acepte los términos.",
-        'err_email': "Formato de correo electrónico no válido.",
-        'err_phone': "El teléfono debe contener solo dígitos.",
-        'err_login': "Correo electrónico o contraseña incorrectos.",
-        'lang_selector': "🌐 Langue / Language / Idioma"
     }
 }
 
@@ -137,73 +112,215 @@ TRANSLATIONS = {
 if 'lang' not in st.session_state:
     st.session_state['lang'] = 'fr'
 
-# --- MENU DE SÉLECTION DE LA LANGUE DANS LA SIDEBAR ---
 with st.sidebar:
     lang_choice = st.selectbox(
         TRANSLATIONS[st.session_state['lang']]['lang_selector'],
-        options=['fr', 'en', 'es'],
-        format_func=lambda x: {'fr': '🇫🇷 Français', 'en': '🇬🇧 English', 'es': '🇪🇸 Español'}[x]
+        options=['fr', 'en'],
+        format_func=lambda x: {'fr': '🇫🇷 Français', 'en': '🇬🇧 English'}[x]
     )
     if lang_choice != st.session_state['lang']:
         st.session_state['lang'] = lang_choice
         st.rerun()
 
-# Raccourci pour récupérer les textes traduits
 t = TRANSLATIONS[st.session_state['lang']]
 
-# --- CSS Personnalisé ---
-LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main/logo.jpg"
-
-custom_css = f"""
+# ==========================================
+# CSS SUR MESURE - CHARTE GRAPHIQUE TERRANEXA
+# ==========================================
+custom_css = """
 <style>
-.stApp {{ background-color: #E0F2FE; }}
-.stApp::before {{
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background-image: url('{LOGO_URL}');
-    background-repeat: no-repeat; background-position: center; background-size: 1500px;
-    opacity: 0.10; pointer-events: none; z-index: 0;
-    animation: floatLogo 8s ease-in-out infinite;
-}}
-@keyframes floatLogo {{
-    0% {{ transform: translateY(0px) scale(1) rotate(0deg); }}
-    50% {{ transform: translateY(-20px) scale(1.05) rotate(2deg); }}
-    100% {{ transform: translateY(0px) scale(1) rotate(0deg); }}
-}}
-.home-header-banner {{
-    background-color: #0C192C; padding: 40px 20px; border-radius: 12px;
-    text-align: center; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(12, 25, 44, 0.3);
-}}
-.home-header-title {{
-    color: #FFFFFF !important; font-size: 3rem !important;
-    font-weight: 900 !important; text-transform: uppercase; margin: 0 !important;
-}}
-.auth-wrapper {{ display: flex; justify-content: center; align-items: center; min-height: 60vh; }}
-.centered-choice-card {{
-    background-color: #FFFFFF; padding: 40px 30px; border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(12, 25, 44, 0.15); text-align: center;
-    border: 1px solid #CBD5E1; width: 100%; max-width: 500px;
-}}
-.main-title {{ color: #142B52; font-size: 2.2rem; font-weight: 800; }}
-.hero-card {{ background-color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #E2E8F0; }}
-.stButton>button {{ background-color: #142B52; color: white; border-radius: 8px; font-weight: 600; }}
-.stButton>button:hover {{ background-color: #0A9E60; color: white; }}
-.partner-section {{
-    background-color: #F8FAFC; padding: 20px; border-radius: 12px;
-    border: 1px solid #E2E8F0; text-align: center; margin-top: 20px;
-}}
-.partner-logo-box {{
-    background-color: #ffffff; border: 1px solid #CBD5E1; border-radius: 8px;
-    padding: 12px; text-align: center; font-weight: 700; color: #142B52;
-}}
-.footer-container {{
-    background-color: #142B52; color: #ffffff; padding: 20px;
-    margin-top: 40px; border-radius: 8px; text-align: center; font-size: 0.85rem;
-}}
+/* Import de la police Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+    color: #F8FAFC;
+}
+
+.stApp {
+    background-color: #060D18;
+}
+
+/* Header & Navbar */
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #0A192F;
+    border-bottom: 1px solid #1E293B;
+    margin-bottom: 30px;
+}
+.brand-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+}
+.brand-logo span {
+    color: #10B981;
+}
+
+/* Sections Hero & Dark */
+.hero-section {
+    background-color: #0A192F;
+    padding: 50px 40px;
+    border-radius: 16px;
+    border: 1px solid #1E293B;
+    margin-bottom: 30px;
+}
+.hero-title {
+    font-size: 2.8rem !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    line-height: 1.2 !important;
+    margin-bottom: 20px !important;
+}
+.hero-desc {
+    font-size: 1.1rem;
+    color: #94A3B8;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Section Fond Clair */
+.light-section {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    padding: 50px 40px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+}
+.light-section h2 {
+    color: #0A192F !important;
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+}
+.tag-green {
+    color: #10B981;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* Cartes Profils sur Fond Clair */
+.profile-card {
+    background: #FFFFFF;
+    border-right: 1px solid #E2E8F0;
+    padding: 25px;
+    height: 100%;
+}
+.profile-card h3 {
+    color: #0A192F !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    margin-top: 15px !important;
+}
+.profile-card p {
+    color: #64748B;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Cartes Étapes (01, 02...) */
+.step-card {
+    background: #0A192F;
+    border: 1px solid #1E293B;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+.step-number {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #10B981;
+    color: #10B981;
+    text-align: center;
+    line-height: 41px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+.step-title {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.step-desc {
+    color: #94A3B8;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Grille de Statistiques */
+.stat-box {
+    text-align: center;
+    padding: 30px 15px;
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+}
+.stat-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #0A192F;
+}
+.stat-value.green {
+    color: #10B981;
+}
+.stat-label {
+    color: #64748B;
+    font-size: 0.95rem;
+    margin-top: 5px;
+}
+
+/* Boutons personnalisés */
+.stButton>button {
+    background-color: #10B981 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease;
+}
+.stButton>button:hover {
+    background-color: #059669 !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Footer Dark */
+.footer-dark {
+    background-color: #0A192F;
+    padding: 40px 20px;
+    border-top: 1px solid #1E293B;
+    margin-top: 50px;
+}
+.footer-col-title {
+    color: #94A3B8;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.footer-link {
+    color: #CBD5E1;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: block;
+}
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
+
+# Helper pour vérifier l'email
+def check_email(email):
+    return re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email)
 
 # Initialisation du Session State
 if 'page' not in st.session_state:
@@ -211,91 +328,167 @@ if 'page' not in st.session_state:
 if 'step' not in st.session_state:
     st.session_state['step'] = 'choix_auth'
 
-def check_email(email):
-    return re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email)
+# ==========================================
+# BARRE DE NAVIGATION FIXE
+# ==========================================
+col_nav_brand, col_nav_btn = st.columns([3, 1])
+with col_nav_brand:
+    st.markdown("<div class='brand-logo'>🟡 TERRANEXA<span></span></div>", unsafe_allow_html=True)
+with col_nav_btn:
+    if st.button(t['btn_invest'], use_container_width=True):
+        st.session_state['page'] = 'home'
+        st.rerun()
 
 # ==========================================
-# 1. PAGE D'ACCUEIL TRADUITE
+# 1. PAGE D'ACCUEIL
 # ==========================================
 if st.session_state['page'] == 'home':
+
+    # --- HERO SECTION ---
     st.markdown(f"""
-        <div class='home-header-banner'>
-            <h1 class='home-header-title'>{t['welcome_title']}</h1>
+        <div class='hero-section'>
+            <h1 class='hero-title'>{t['hero_title']}</h1>
+            <p class='hero-desc'>{t['hero_desc']}</p>
         </div>
     """, unsafe_allow_html=True)
 
-    col_hero_left, col_hero_right = st.columns([3, 2], gap="large")
-    
-    with col_hero_left:
-        st.markdown(f"<h2 class='main-title'>{t['hero_title']}</h2>", unsafe_allow_html=True)
-        st.write(t['hero_desc'])
-        
-        col_cta1, col_cta2 = st.columns(2)
-        with col_cta1:
-            if st.button(t['btn_deposit'], use_container_width=True):
-                st.session_state['page'] = 'parcours'
-                st.session_state['step'] = 'choix_auth'
-                st.rerun()
-        with col_cta2:
-            st.button(t['btn_discover'], use_container_width=True)
+    if st.button(t['btn_deposit']):
+        st.session_state['page'] = 'parcours'
+        st.session_state['step'] = 'choix_auth'
+        st.rerun()
 
-    with col_hero_right:
-        st.markdown(f"""
-            <div class='hero-card'>
-                <h4 style='color: #142B52; margin-top:0;'>{t['profile_title']}</h4>
-                <p style='color: #475569; font-size: 0.9rem;'>
-                    {t['senior_desc']}<br>
-                    {t['artisan_desc']}<br>
-                    {t['tech_desc']}
-                </p>
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # --- SECTION CE QUE NOUS FINANÇONS (FOND CLAIR) ---
+    st.markdown(f"""
+        <div class='light-section'>
+            <p class='tag-green'>{t['secteurs_tag']}</p>
+            <h2>{t['secteurs_title']}</h2>
+            <p style='color: #64748B; font-size: 1.05rem;'>{t['secteurs_sub']}</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    col_p1, col_p2 = st.columns(2)
+    with col_p1:
+        st.markdown("""
+            <div class='profile-card'>
+                <div style='font-size: 2rem;'>👵👴</div>
+                <h3>Sénior / Retraité</h3>
+                <p>Un parcours d'accompagnement dédié pour valoriser des décennies d'expérience dans un nouveau projet.</p>
+            </div>
+        """, unsafe_allow_html=True)
+    with col_p2:
+        st.markdown("""
+            <div class='profile-card'>
+                <div style='font-size: 2rem;'>🏪</div>
+                <h3>Commerçant / Artisan</h3>
+                <p>Pour les entreprises déjà existantes — boulangerie, atelier, boutique — en recherche d'expansion.</p>
             </div>
         """, unsafe_allow_html=True)
 
-    st.divider()
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
+    # --- SECTION STATISTIQUES (FOND CLAIR & GRILLE) ---
+    st.markdown("<p class='tag-green' style='text-align: center;'>IMPACT EN CHIFFRES</p>", unsafe_allow_html=True)
+    
+    st_col1, st_col2 = st.columns(2)
+    with st_col1:
+        st.markdown(f"""
+            <div class='stat-box'>
+                <div class='stat-value green'>{t['stat_1_val']}</div>
+                <div class='stat-label'>{t['stat_1_lbl']}</div>
+            </div>
+        """, unsafe_allow_html=True)
+    with st_col2:
+        st.markdown(f"""
+            <div class='stat-box'>
+                <div class='stat-value green'>{t['stat_2_val']}</div>
+                <div class='stat-label'>{t['stat_2_lbl']}</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st_col3, st_col4 = st.columns(2)
+    with st_col3:
+        st.markdown(f"""
+            <div class='stat-box'>
+                <div class='stat-value green'>{t['stat_3_val']}</div>
+                <div class='stat-label'>{t['stat_3_lbl']}</div>
+            </div>
+        """, unsafe_allow_html=True)
+    with st_col4:
+        st.markdown(f"""
+            <div class='stat-box'>
+                <div class='stat-value green'>{t['stat_4_val']}</div>
+                <div class='stat-label'>{t['stat_4_lbl']}</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # --- SECTION ÉTAPES PARCOURS (FOND SOMBRE) ---
     st.markdown(f"""
-        <div class='partner-section'>
-            <p style='color: #142B52; font-weight: 700; font-size: 1.05rem; margin-bottom: 15px;'>
-                {t['partners_title']}
-            </p>
-        </div>
+        <p class='tag-green'>{t['steps_tag']}</p>
+        <h2 style='color: #FFFFFF; font-size: 2rem; font-weight: 800; margin-bottom: 30px;'>{t['steps_title']}</h2>
     """, unsafe_allow_html=True)
 
-    col_b1, col_b2, col_b3, col_b4 = st.columns(4)
-    with col_b1: st.markdown("<div class='partner-logo-box'>🏦 ECOBANK</div>", unsafe_allow_html=True)
-    with col_b2: st.markdown("<div class='partner-logo-box'>🏦 BOA</div>", unsafe_allow_html=True)
-    with col_b3: st.markdown("<div class='partner-logo-box'>🏛️ FECECAM-BÉNIN</div>", unsafe_allow_html=True)
-    with col_b4: st.markdown("<div class='partner-logo-box'>💼 SGB</div>", unsafe_allow_html=True)
+    col_e1, col_e2 = st.columns(2)
+    with col_e1:
+        st.markdown("""
+            <div class='step-card'>
+                <div class='step-number'>01</div>
+                <div class='step-title'>Inscription</div>
+                <div class='step-desc'>Créez votre compte en quelques minutes : nom, e-mail, téléphone / WhatsApp.</div>
+            </div>
+        """, unsafe_allow_html=True)
+    with col_e2:
+        st.markdown("""
+            <div class='step-card'>
+                <div class='step-number'>02</div>
+                <div class='step-title'>Profil & expérience</div>
+                <div class='step-desc'>Sénior, artisan, reconversion ou startup : indiquez votre profil et valorisez votre parcours.</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    col_e3, col_e4 = st.columns(2)
+    with col_e3:
+        st.markdown("""
+            <div class='step-card'>
+                <div class='step-number'>03</div>
+                <div class='step-title'>Formulaire adaptatif</div>
+                <div class='step-desc'>Présentez votre concept, l'impact de votre activité et vos besoins financiers.</div>
+            </div>
+        """, unsafe_allow_html=True)
+    with col_e4:
+        st.markdown("""
+            <div class='step-card'>
+                <div class='step-number'>04</div>
+                <div class='step-title'>Validation</div>
+                <div class='step-desc'>Réglez les frais d'instruction et soumettez votre dossier au comité d'experts.</div>
+            </div>
+        """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. PARCOURS (DÉPÔT / ACCÈS TRADUIT)
+# 2. PARCOURS (INSCRIPTION / CONNEXION)
 # ==========================================
 elif st.session_state['page'] == 'parcours':
 
     if st.session_state['step'] == 'choix_auth':
-        _, col_center, _ = st.columns([1, 2, 1])
-        
-        with col_center:
-            st.markdown("<div class='auth-wrapper'>", unsafe_allow_html=True)
-            st.markdown(f"""
-                <div class='centered-choice-card'>
-                    <h2 style='color: #142B52; margin-bottom: 10px;'>{t['auth_title']}</h2>
-                    <p style='color: #64748B; font-size: 1rem; margin-bottom: 25px;'>{t['auth_sub']}</p>
-                </div>
-            """, unsafe_allow_html=True)
-            
+        st.markdown(f"""
+            <div class='hero-section' style='text-align: center;'>
+                <h2 style='color: #FFFFFF; font-size: 2rem; font-weight: 800;'>{t['auth_title']}</h2>
+                <p style='color: #94A3B8;'>{t['auth_sub']}</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        col_a1, col_a2 = st.columns(2)
+        with col_a1:
             if st.button(t['btn_register'], use_container_width=True):
                 st.session_state['step'] = 'page_inscription'
                 st.rerun()
-            
-            st.write("")
-            st.markdown(f"<p style='text-align: center; font-weight: 600; color: #142B52; margin-top: 15px;'>{t['has_account']}</p>", unsafe_allow_html=True)
-            
+        with col_a2:
             if st.button(t['btn_login'], use_container_width=True):
                 st.session_state['step'] = 'page_connexion'
                 st.rerun()
-            
-            st.markdown("</div>", unsafe_allow_html=True)
 
     elif st.session_state['step'] == 'page_inscription':
         st.subheader(t['step1_reg_title'])
@@ -362,9 +555,40 @@ elif st.session_state['page'] == 'parcours':
                     else:
                         st.error(t['err_login'])
 
-# --- FOOTER SOBRE ---
+# ==========================================
+# FOOTER NOIR / BLEU NUIT (CONFORME À LA CAPTURE)
+# ==========================================
 st.markdown("""
-    <div class='footer-container'>
-        <p style='margin-bottom: 5px; font-weight: 600;'>TERRANEXA © 2026 - Platform</p>
+    <div class='footer-dark'>
+        <div style='display: flex; justify-content: space-between; flex-wrap: wrap;'>
+            <div style='max-width: 300px;'>
+                <div class='brand-logo' style='margin-bottom: 15px;'>🟡 TERRANEXA</div>
+                <p style='color: #94A3B8; font-size: 0.85rem; line-height: 1.5;'>
+                    Plateforme de financement participatif qui valorise tous les parcours — jeunes fondateurs, artisans, séniors et retraités — au service de l'économie réelle.
+                </p>
+            </div>
+            <div>
+                <div class='footer-col-title'>PLATEFORME</div>
+                <span class='footer-link'>Déposer un projet</span>
+                <span class='footer-link'>Investir</span>
+                <span class='footer-link'>Profils</span>
+                <span class='footer-link'>Secteurs</span>
+            </div>
+            <div>
+                <div class='footer-col-title'>RESSOURCES</div>
+                <span class='footer-link'>Centre d'aide</span>
+                <span class='footer-link'>Comité d'experts</span>
+                <span class='footer-link'>Frais d'instruction</span>
+            </div>
+            <div>
+                <div class='footer-col-title'>SOCIÉTÉ</div>
+                <span class='footer-link'>À propos</span>
+                <span class='footer-link'>Contact</span>
+                <span class='footer-link'>Presse</span>
+            </div>
+        </div>
+        <div style='border-top: 1px solid #1E293B; margin-top: 30px; padding-top: 20px; text-align: center; color: #64748B; font-size: 0.8rem;'>
+            © 2026 Terranexa. Tous droits réservés. · Mentions légales · CGU · Confidentialité
+        </div>
     </div>
 """, unsafe_allow_html=True)
