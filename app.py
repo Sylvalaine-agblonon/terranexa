@@ -24,10 +24,12 @@ LOGO_URL = "https://raw.githubusercontent.com/Sylvalaine-agblonon/terranexa/main
 
 custom_css = f"""
 <style>
+/* Fond bleu ciel sur toute l'application */
 .stApp {{
     background-color: #E0F2FE;
 }}
 
+/* Logo en arrière-plan avec animation de flottaison */
 .stApp::before {{
     content: "";
     position: fixed;
@@ -66,6 +68,7 @@ custom_css = f"""
     animation-play-state: paused;
 }}
 
+/* En-tête Bleu Nuit (Page d'accueil) */
 .home-header-banner {{
     background-color: #0C192C;
     padding: 40px 20px;
@@ -85,12 +88,18 @@ custom_css = f"""
     line-height: 1.2;
 }}
 
-:root {{
-    --terranexa-navy: #142B52;
-    --terranexa-green: #0A9E60;
-    --terranexa-gold: #D4A017;
+/* Carte centrée pour le choix Inscription/Connexion */
+.centered-choice-card {{
+    background-color: #FFFFFF;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(12, 25, 44, 0.15);
+    text-align: center;
+    border: 1px solid #CBD5E1;
+    margin-top: 50px;
 }}
 
+/* Palette générale */
 .main-title {{ color: #142B52; font-size: 2.2rem; font-weight: 800; line-height: 1.3; }}
 .hero-card {{ background-color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #E2E8F0; }}
 .stButton>button {{ background-color: #142B52; color: white; border-radius: 8px; font-weight: 600; }}
@@ -135,11 +144,11 @@ custom_css = f"""
 
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# Initialisation des variables de Session State
+# Initialisation du Session State
 if 'page' not in st.session_state:
     st.session_state['page'] = 'home'
 if 'step' not in st.session_state:
-    st.session_state['step'] = 'etape_1'
+    st.session_state['step'] = 'choix_auth'
 if 'form_data' not in st.session_state:
     st.session_state['form_data'] = {}
 if 'user' not in st.session_state:
@@ -153,7 +162,7 @@ def check_email(email):
     regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(regex, email)
 
-# --- HEADER GLOBAL POUR LE PARCOURS ---
+# --- HEADER GLOBAL POUR LE PARCOURS DE DÉPÔT ---
 if st.session_state['page'] == 'parcours':
     col_logo, col_nav = st.columns([3, 1])
     with col_logo:
@@ -189,7 +198,7 @@ if st.session_state['page'] == 'home':
         with col_cta1:
             if st.button("📌 Déposer un Projet", use_container_width=True):
                 st.session_state['page'] = 'parcours'
-                st.session_state['step'] = 'etape_1'
+                st.session_state['step'] = 'choix_auth'
                 st.rerun()
         with col_cta2:
             st.button("🔍 Découvrir les Projets", use_container_width=True)
@@ -232,33 +241,63 @@ if st.session_state['page'] == 'home':
 elif st.session_state['page'] == 'parcours':
 
     # ------------------------------------------
-    # ÉTAPE 1 : INSCRIPTION / CONNEXION
+    # ÉTAPE 1.A : CHOIX ACCÈS (CENTRÉ AU MILIEU)
     # ------------------------------------------
-    if st.session_state['step'] == 'etape_1':
-        st.subheader("Étape 1 sur 7 : Inscription ou Connexion")
+    if st.session_state['step'] == 'choix_auth':
+        _, col_center, _ = st.columns([1, 2, 1])
+        
+        with col_center:
+            st.markdown("""
+                <div class='centered-choice-card'>
+                    <h2 style='color: #142B52; margin-bottom: 10px;'>Espace Porteur de Projet</h2>
+                    <p style='color: #64748B; font-size: 1rem; margin-bottom: 30px;'>
+                        Pour déposer votre projet et suivre son avancement, veuillez vous identifier.
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            st.write("")
+            if st.button("📝 S'inscrire", use_container_width=True):
+                st.session_state['step'] = 'page_inscription'
+                st.rerun()
+            
+            st.write("")
+            st.write("")
+            st.markdown("<p style='text-align: center; font-weight: 600; color: #142B52;'>Avez-vous déjà un compte ?</p>", unsafe_allow_html=True)
+            if st.button("🔑 Se connecter", use_container_width=True):
+                st.session_state['step'] = 'page_connexion'
+                st.rerun()
+
+    # ------------------------------------------
+    # ÉTAPE 1.B : PAGE DÉDIÉE À L'INSCRIPTION
+    # ------------------------------------------
+    elif st.session_state['step'] == 'page_inscription':
+        st.subheader("Étape 1 sur 7 : Inscription de votre compte")
         st.progress(1 / 7)
 
-        tab_register, tab_login = st.tabs(["📝 Créer un compte", "🔑 Se connecter"])
+        with st.form("form_register"):
+            col_name1, col_name2 = st.columns(2)
+            with col_name1:
+                nom = st.text_input("Nom *").strip()
+            with col_name2:
+                prenom = st.text_input("Prénom(s) *").strip()
 
-        with tab_register:
-            with st.form("form_register"):
-                # Champs Nom et Prénom séparés sur deux colonnes
-                col_name1, col_name2 = st.columns(2)
-                with col_name1:
-                    nom = st.text_input("Nom *").strip()
-                with col_name2:
-                    prenom = st.text_input("Prénom(s) *").strip()
+            col1, col2 = st.columns(2)
+            with col1:
+                email = st.text_input("Adresse E-mail *").strip().lower()
+                phone_digits = st.text_input("Numéro de téléphone (+229) *", max_chars=10)
+            with col2:
+                pwd = st.text_input("Mot de passe *", type="password")
 
-                col1, col2 = st.columns(2)
-                with col1:
-                    email = st.text_input("Adresse E-mail *").strip().lower()
-                    phone_digits = st.text_input("Numéro de téléphone (+229) *", max_chars=10)
-                with col2:
-                    pwd = st.text_input("Mot de passe *", type="password")
+            is_porteur = st.checkbox("Je suis un Porteur de Projet / Entrepreneur", value=True)
+            cgu = st.checkbox("J'accepte les Conditions Générales d'Utilisation (CGU) *")
 
-                is_porteur = st.checkbox("Je suis un Porteur de Projet / Entrepreneur", value=True)
-                cgu = st.checkbox("J'accepte les Conditions Générales d'Utilisation (CGU) *")
-
+            col_btn1, col_btn2 = st.columns(2)
+            with col_btn1:
+                if st.form_submit_button("⬅️ Retour"):
+                    st.session_state['step'] = 'choix_auth'
+                    st.rerun()
+            with col_btn2:
                 if st.form_submit_button("S'inscrire et Continuer ➡️"):
                     if not nom or not prenom or not email or not phone_digits or not pwd or not cgu:
                         st.error("Veuillez remplir tous les champs obligatoires (Nom, Prénom, E-mail, Téléphone, Mot de passe) et accepter les CGU.")
@@ -268,7 +307,6 @@ elif st.session_state['page'] == 'parcours':
                         st.error("Le numéro de téléphone doit contenir uniquement des chiffres.")
                     else:
                         phone_full = f"+229{phone_digits}"
-                        # Transmission de nom et prenom séparés à la fonction d'inscription
                         success, user_id, msg = inscrire_utilisateur(nom, prenom, email, phone_full, pwd, is_porteur)
                         if success:
                             st.session_state['user'] = {
@@ -284,16 +322,28 @@ elif st.session_state['page'] == 'parcours':
                         else:
                             st.error(msg)
 
-        with tab_login:
-            with st.form("form_login"):
-                login_email = st.text_input("Adresse E-mail *").strip().lower()
-                login_pwd = st.text_input("Mot de passe *", type="password")
+    # ------------------------------------------
+    # ÉTAPE 1.C : PAGE DÉDIÉE À LA CONNEXION
+    # ------------------------------------------
+    elif st.session_state['step'] == 'page_connexion':
+        st.subheader("Étape 1 sur 7 : Connexion à votre compte")
+        st.progress(1 / 7)
 
-                if st.form_submit_button("Se connecter ➡️"):
+        with st.form("form_login"):
+            login_email = st.text_input("Adresse E-mail *").strip().lower()
+            login_pwd = st.text_input("Mot de passe *", type="password")
+
+            col_btn1, col_btn2 = st.columns(2)
+            with col_btn1:
+                if st.form_submit_button("⬅️ Retour"):
+                    st.session_state['step'] = 'choix_auth'
+                    st.rerun()
+            with col_btn2:
+                if st.form_submit_button("Se connecter et Continuer ➡️"):
                     success, user_data = authentifier_utilisateur(login_email, login_pwd)
                     if success:
                         st.session_state['user'] = user_data
-                        st.success(f"Bienvenue, {user_data.get('nom_prenom', user_data.get('nom', ''))} !")
+                        st.success(f"Bienvenue, {user_data.get('prenom', user_data.get('nom', ''))} !")
                         st.session_state['step'] = 'etape_2'
                         st.rerun()
                     else:
@@ -330,7 +380,7 @@ elif st.session_state['page'] == 'parcours':
             col_b1, col_b2 = st.columns(2)
             with col_b1:
                 if st.form_submit_button("⬅️ Retour"):
-                    st.session_state['step'] = 'etape_1'
+                    st.session_state['step'] = 'choix_auth'
                     st.rerun()
             with col_b2:
                 if st.form_submit_button("Étape Suivante ➡️"):
